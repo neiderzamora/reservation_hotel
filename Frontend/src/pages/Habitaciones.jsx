@@ -3,6 +3,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Header from '../components/admin/Header';
 import ModalHabit from './ModalHabit';
+import habitacionesData from './habitacionesData';
 
 const Habitaciones = () => {
   const imageStyles = {
@@ -62,52 +63,7 @@ const Habitaciones = () => {
   };
 
   /* Habitaciones para seleccionar */
-  const [habitaciones, setHabitaciones] = useState([
-    {
-      id: 1,
-      nombre: 'Habitación Quad',
-      image: '/HabitacionesIMG/quad.jpg',
-      caracteristicas:
-        'Esta habitación espaciosa tiene capacidad para 4 personas y cuenta con comodidades como aire acondicionado, TV de pantalla plana, minibar y baño privado.',
-      imagenes: ['/HabitacionesIMG/quad.jpg', '/HabitacionesIMG/quad.jpg', '/HabitacionesIMG/quad.jpg'],
-      cantidadPersonas : 5,
-      precio : '60.000',
-      tipo: 'Familiar'
-    },
-    {
-      id: 2,
-      nombre: 'Habitación Doble',
-      image: '/HabitacionesIMG/doble.jpg',
-      caracteristicas:
-        'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-      imagenes: ['/HabitacionesIMG/doble.jpg', '/HabitacionesIMG/doble.jpg', '/HabitacionesIMG/doble.jpg'],
-      cantidadPersonas : 2,
-      precio : '45.000',
-      tipo: 'doble'
-    },
-    {
-      id: 3,
-      nombre: 'Habitación Presidencial',
-      image: '/HabitacionesIMG/Presidencial.jpg',
-      caracteristicas:
-        'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-      imagenes: ['/HabitacionesIMG/Presidencial.jpg','/HabitacionesIMG/Presidencial.jpg','/HabitacionesIMG/Presidencial.jpg'],
-      cantidadPersonas : 8,
-      precio : '115.000',
-      tipo: 'Presidencial'
-    },
-    {
-      id: 4,
-      nombre: 'Habitación Individual',
-      image: '/HabitacionesIMG/individual.jpg',
-      caracteristicas:
-        'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-      imagenes: ['/HabitacionesIMG/individual.jpg','/HabitacionesIMG/individual.jpg','/HabitacionesIMG/individual.jpg'],
-      cantidadPersonas : 1,
-      precio : '50.000',
-      tipo: 'Individual'
-    },
-  ]);
+  const [habitaciones, setHabitaciones] = useState(habitacionesData);
 
   const [filtroTipo, setFiltroTipo] = useState('');
   const [filtroPrecio, setFiltroPrecio] = useState('');
@@ -124,9 +80,10 @@ const habitacionesFiltradas = habitaciones.filter((habitacion) => {
 
   return cumpleTipo && cumplePrecio && cumplePersonas;
 });
+
   return (
     <>
-      <Header/>
+      <Header />
       {/* Carrusel de imágenes */}
       <Carousel
         showThumbs={false}
@@ -239,7 +196,7 @@ const habitacionesFiltradas = habitaciones.filter((habitacion) => {
                   {hoveredRoom === habitacion.id && (
                     <button className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
                       <div className="bg-black bg-opacity-50 p-4 text-white text-center">
-                        <p className="text-lg font-bold">${habitacion.precio} Pesos la noche</p>
+                        <p className="text-lg font-bold">${habitacion.precio} Pesos</p>
                         <p>{habitacion.cantidadPersonas} personas</p>
                       </div>
                     </button>

@@ -1,11 +1,14 @@
 import React from 'react'
 import Header from '../components/admin/Header'
+import Habitaciones from './Habitaciones'
+
 
 export default function Panel() {
   return (
     <>
-    <Header/>
-    <h1>Hola PXCHO</h1>
+    {/* <Header/> */}
+    <Habitaciones/>
+
     </>
   )
 }
