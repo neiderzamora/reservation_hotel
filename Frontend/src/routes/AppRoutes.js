@@ -8,7 +8,7 @@ const AppRoutes = () => {
       <>
         <Routes>
           <Route path="/" element={<Panel />} />
-          <Route path="/*" element={<Page_not_found />} />
+          <Route path="/" element={<Page_not_found />} />
         </Routes>
       </>
     );
