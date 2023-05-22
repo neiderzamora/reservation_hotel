@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-background {
+    background-image: linear-gradient(to bottom, #ffffff, #f1f1f1, #e4e4e4, #d6d6d6, #c9c9c9, #bebebe, #b4b4b4, #a9a9a9, #9f9f9f, #959494, #8b8a8a, #818080);
+  }
+  

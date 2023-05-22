@@ -107,22 +107,24 @@ const habitacionesFiltradas = habitaciones.filter((habitacion) => {
       </Carousel>
 
 {/* Titulo debajo de las imágenes */}
-                <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                  <header>
-                    <h1 className="flex justify-center lg:text-4xl sm:text-3xl font-semibold text-gray-600">
-                      Conoce nuestras habitaciones
-                    </h1>
-                    <div className="mx-auto py-2 w-1/6 border-b-4 border-gray-400 mb-6"></div>
-                  </header>
-
+            <div className="custom-background mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+              <h1 className="flex justify-center lg:text-4xl font-semibold text-gray-700" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+                Conoce nuestras habitaciones
+              </h1>
+              <div className="mx-auto py-2 w-1/6 border-b-4 border-gray-400 mb-6" />
+              <div className="text-justify">
+                <p className="text-md text-gray-800 leading-relaxed" style={{ textShadow: '4px 2px 4px rgba(0, 0, 0, 0.2)' }}>
+                  ¡Descubre la habitación perfecta y reserva con un solo clic! Explora nuestras increíbles opciones y elige la imagen que más te atraiga. ¡Estamos aquí para ayudarte a encontrar la habitación perfecta, adaptada a tus preferencias de tipo, precio y capacidad! Haz una selección informada y reserva ahora para asegurar tu estancia inolvidable. No esperes más, ¡nuestro equipo está ansioso por recibirte en nuestro acogedor y confortable alojamiento!
+                </p>
+              </div>
 {/* Menú de filtrado */}
               <section className="mt-8">              
-              <div className='flex flex-wrap justify-between space-x-2 space-y-2 mt-4 mb-8 text-xl'>
-              <div className="flex space-x-2 transition-all duration-300 hover:scale-105 hover:shadow-inner">
+              <div className='flex flex-wrap justify-between space-x-2 mt-4 mb-8 text-xl'>
+              <div className="flex space-x-2 ">
               <label htmlFor="tipoHabitacion">Tipo:</label>
               <select
                 id="tipoHabitacion"
-                className="rounded-md shadow-sm"
+                className="rounded-md bg-transparent transition-all duration-300 hover:scale-105 text-gray-500"
                 value={filtroTipo}
                 onChange={(e) => setFiltroTipo(e.target.value)}
               >
@@ -135,11 +137,11 @@ const habitacionesFiltradas = habitaciones.filter((habitacion) => {
               </select>
             </div>
 
-            <div className="flex space-x-2 transition-all duration-300 hover:scale-105 hover:shadow-inner hover:text-bold">
+            <div className="flex space-x-2  ">
               <label htmlFor="precioHabitacion">Precio:</label>
               <select
             id="precioHabitacion"
-            className="rounded-md shadow-sm"
+            className="rounded-md bg-transparent transition-all duration-300 hover:scale-105 text-gray-500"
             value={filtroPrecio}
             onChange={(e) => setFiltroPrecio(e.target.value)}
           >
@@ -151,15 +153,15 @@ const habitacionesFiltradas = habitaciones.filter((habitacion) => {
             ))}
           </select>
           </div>
-          <div className="flex space-x-2 transition-all duration-300 hover:scale-105 hover:shadow-inner">
+          <div className="flex space-x-2">
           <label htmlFor="precioHabitacion">Personas:</label>
           <select
             id="personasHabitacion"
-            className="rounded-md shadow-sm"
+            className="rounded-md bg-transparent transition-all duration-300 hover:scale-105 text-gray-500"
             value={filtroPersonas}
             onChange={(e) => setFiltroPersonas(e.target.value)}
           >
-            <option value="">Cualquier cantidad de personas</option>
+            <option value="">Seleccionar cantidad</option>
             {cantidadesPersonas.map((cantidad) => (
               <option key={cantidad} value={cantidad}>
                 {cantidad}
