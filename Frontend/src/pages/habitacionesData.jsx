@@ -1,36 +1,14 @@
 const habitacionesData = [
-    {
-        id: 8,
-        nombre: 'Habitación Individual',
-        image: '/HabitacionesIMG/individual_1.jpg',
-        caracteristicas:
-          'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-        imagenes: ['/HabitacionesIMG/individual_1.jpg','/HabitacionesIMG/individual_1.jpg','/HabitacionesIMG/individual_1.jpg'],
-        cantidadPersonas : 1,
-        precio : '50.000',
-        tipo: 'Individual'
-      },
       {
         id: 4,
         nombre: 'Habitación Individual',
         image: '/HabitacionesIMG/individual.jpg',
         caracteristicas:
           'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-        imagenes: ['/HabitacionesIMG/individual.jpg','/HabitacionesIMG/individual.jpg','/HabitacionesIMG/individual.jpg'],
+        imagenes: ['/HabitacionesIMG/individual.jpg','/HabitacionesIMG/individual.jpg'],
         cantidadPersonas : 1,
         precio : '50.000',
         tipo: 'Individual'
-      },
-      {
-        id: 12,
-        nombre: 'Habitación Doble',
-        image: '/HabitacionesIMG/doble_1.jpg',
-        caracteristicas:
-          'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-        imagenes: ['/HabitacionesIMG/doble_1.jpg','/HabitacionesIMG/doble_1.jpg','/HabitacionesIMG/doble_1.jpg'],
-        cantidadPersonas : 2,
-        precio : '85.000',
-        tipo: 'Doble'
       },
       {
         id: 6,
@@ -38,7 +16,7 @@ const habitacionesData = [
         image: '/HabitacionesIMG/doble_5.jpg',
         caracteristicas:
           'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-        imagenes: ['/HabitacionesIMG/doble_5.jpg','/HabitacionesIMG/doble_5.jpg','/HabitacionesIMG/doble_5.jpg'],
+        imagenes: ['/HabitacionesIMG/doble_5.jpg','/HabitacionesIMG/doble_5.jpg'],
         cantidadPersonas : 2,
         precio : '90.000',
         tipo: 'Doble'
@@ -49,7 +27,7 @@ const habitacionesData = [
         image: '/HabitacionesIMG/doble_2.jpg',
         caracteristicas:
           'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-        imagenes: ['/HabitacionesIMG/doble_2.jpg','/HabitacionesIMG/doble_2.jpg','/HabitacionesIMG/doble_2.jpg'],
+        imagenes: ['/HabitacionesIMG/doble_2.jpg','/HabitacionesIMG/doble_2.jpg'],
         cantidadPersonas : 2,
         precio : '90.000',
         tipo: 'Doble'
@@ -83,17 +61,6 @@ const habitacionesData = [
         caracteristicas:
           'Esta habitación espaciosa tiene capacidad para 4 personas y cuenta con comodidades como aire acondicionado, TV de pantalla plana, minibar y baño privado.',
         imagenes: ['/HabitacionesIMG/quad_2.jpg','/HabitacionesIMG/quad_2.jpg','/HabitacionesIMG/quad_2.jpg'],
-        cantidadPersonas : 4,
-        precio : '155.000',
-        tipo: 'Familiar'
-      },
-      {
-        id: 9,
-        nombre: 'Habitación Familiar',
-        image: '/HabitacionesIMG/quad_3.jpg',
-        caracteristicas:
-          'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-        imagenes: ['/HabitacionesIMG/quad_3.jpg','/HabitacionesIMG/quad_3.jpg','/HabitacionesIMG/quad_3.jpg'],
         cantidadPersonas : 4,
         precio : '155.000',
         tipo: 'Familiar'
