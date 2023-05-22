@@ -83,7 +83,7 @@ const habitacionesFiltradas = habitaciones.filter((habitacion) => {
 
   return (
     <>
-      <Header />
+      
       {/* Carrusel de imágenes */}
       <Carousel
         showThumbs={false}

@@ -9,7 +9,8 @@ const AppRoutes = () => {
       <>
         <Routes>
           <Route path="/panel" element={<Panel />} />
-          <Route path="/habitaciones" element={<Habitaciones />} />
+          <Route path="/" element={<Habitaciones />} />
+          {/* <Route path="/habitaciones" element={<Habitaciones />} /> */}
           <Route path="/*" element={<Page_not_found />} />
         </Routes>
       </>
