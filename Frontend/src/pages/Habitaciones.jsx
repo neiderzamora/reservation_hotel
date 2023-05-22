@@ -14,32 +14,32 @@ const Habitaciones = () => {
 
   const carouselData = [
     {
-      image: '/HabitacionesIMG/img1.jpg',
+      image: '/HabitacionesIMG/Presidencial_1.jpg',
       title: '¡Descubre nuestras habitaciones urbanas!',
       description: 'Experimenta la comodidad en el corazón de la ciudad.',
     },
     {
-      image: '/HabitacionesIMG/img2.jpg',
+      image: '/HabitacionesIMG/quad_1.jpg',
       title: '¡Tu oasis en medio del bullicio!',
       description: 'Relájate y recarga energías después de explorar la ciudad.',
     },
     {
-      image: '/HabitacionesIMG/img3.jpg',
+      image: '/HabitacionesIMG/individual.jpg',
       title: '¡Hospédate en nuestro hotel de diseño moderno!',
       description: 'Sumérgete en una experiencia de estilo y confort.',
     },
     {
-      image: '/HabitacionesIMG/img4.jpg',
+      image: '/HabitacionesIMG/Presidencial.jpg',
       title: '¡Tu hogar lejos de casa en la ciudad!',
       description: 'Disfruta de todas las comodidades y servicios que ofrecemos.',
     },
     {
-      image: '/HabitacionesIMG/img5.jpg',
+      image: '/HabitacionesIMG/doble_4.jpg',
       title: '¡Explora la ciudad desde nuestras habitaciones!',
       description: 'Accede fácilmente a los principales lugares de interés.',
     },
     {
-      image: '/HabitacionesIMG/img6.jpg',
+      image: '/HabitacionesIMG/doble_5.jpg',
       title: '¡Vive la vibrante vida urbana en nuestro hotel!',
       description: 'Descubre la diversidad cultural y la emoción de la ciudad.',
     },
