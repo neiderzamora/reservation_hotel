@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const ModalHabit = ({ onClose, children }) => {
+
+/*   const [disponible, setDisponible] = useState(false);
+
+  const handleClick = () => {
+    setDisponible(!disponible);
+  }; */
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-4 rounded-lg">
@@ -12,7 +19,10 @@ const ModalHabit = ({ onClose, children }) => {
             Cerrar
           </button>
         </div>
+        
         <div>{children}</div>
+        
+        
       </div>
     </div>
   );
