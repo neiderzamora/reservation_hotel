@@ -104,7 +104,6 @@ const Habitaciones = () => {
 
   return (
     <>
-<<<<<<< HEAD
       {/* <Header/> */}
       <header className="fixed top-0 left-0 z-50 right-0 bg-gray-900 shadow-md" style={{ zIndex: 50 }}>
       <nav className="container mx-auto flex items-center justify-between py-4">
@@ -151,10 +150,6 @@ const Habitaciones = () => {
     
     {/* Carrusel de imágenes */}
     <div className="relative" style={{ paddingTop: '63px' }}>
-=======
-      
-      {/* Carrusel de imágenes */}
->>>>>>> 278f67ceda7664f7f51d335b432ea04a06e824ad
       <Carousel
         showThumbs={false}
         infiniteLoop={true}
