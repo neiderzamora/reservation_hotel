@@ -343,7 +343,9 @@ const Table = () => {
                   </td>
 
                   <td className="p-3 text-sm text-gray-700 whitespace-nowrap flex items-center space-x-2">
-                    <PencilSquareIcon className="h-5 w-5 text-gray-80 dark:text-gray-200" />
+                    <Link to="/editarreserva">
+                      <PencilSquareIcon className="h-5 w-5 text-gray-80 dark:text-gray-200" />
+                    </Link>
                     <button>
                       <TrashIcon className="h-5 w-5 text-red-600" />
                     </button>
@@ -502,7 +504,9 @@ const Table = () => {
 
               <div className="flex items-center justify-end space-x-2 text-sm">
                 <button className="rounded-3xl w-9 flex items-center justify-center bg-gray-900">
+                <Link to="/editarreserva">
                   <PencilSquareIcon className="h-8 w-8 p-1 text-gray-200" />
+                  </Link>
                 </button>
 
                 <button className="rounded-3xl w-9 flex items-center justify-center bg-gray-900">
@@ -511,8 +515,8 @@ const Table = () => {
               </div>
             </div>
           </div>
-
           {/* vista de movil */}
+          <Pagination />
         </div>
       </div>
     </>
