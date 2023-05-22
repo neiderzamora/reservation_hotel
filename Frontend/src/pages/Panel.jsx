@@ -1,14 +1,14 @@
 import React from 'react'
 import Header from '../components/admin/Header'
-import Habitaciones from './Habitaciones'
+import Table from '../components/admin/Table'
+import Pagination from '../components/admin/Pagination'
 
 
 export default function Panel() {
   return (
     <>
-    {/* <Header/> */}
-    <Habitaciones/>
-
+    <Header/>
+    <Table/>
     </>
   )
 }
