@@ -4,6 +4,7 @@ import Panel from "../pages/Panel";
 import Page_not_found from "../pages/Page_not_found";
 import Habitaciones from "../pages/Habitaciones";
 import EditReserve from "../pages/EditReserve";
+import Reserva from "../pages/Reserva";
 
 const AppRoutes = () => {
     return (
@@ -11,6 +12,7 @@ const AppRoutes = () => {
         <Routes>
           <Route path="/panel" element={<Panel />} />
           <Route path="/" element={<Habitaciones />} />
+          <Route path="/reservar" element={<Reserva />} />
           <Route path="/editarreserva" element={<EditReserve />} /> {/* agregar el id cuando se consuma datos del back */}
           {/* <Route path="/habitaciones" element={<Habitaciones />} /> */}
           <Route path="/*" element={<Page_not_found />} />

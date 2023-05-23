@@ -1,7 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Reserva = () => {
+
+
   const [checkInDate, setCheckInDate] = useState("");
   const [duration, setDuration] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -28,8 +31,12 @@ const Reserva = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+    
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto mt-10 mb-10">
       <div>
+        <div className="flex justify-end text-red-500">    
+            <Link to={"/"}>X</Link>
+        </div>
         <label htmlFor="check-in-date" className="block mb-2 font-semibold">
           Fecha de entrada
         </label>

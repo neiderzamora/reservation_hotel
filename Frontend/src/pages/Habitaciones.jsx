@@ -317,7 +317,7 @@ const Habitaciones = () => {
                 infiniteLoop={true}
                 autoPlay={true}
                 interval={3000}
-                transitionTime={500}
+                transitionTime={500}  
               >
                 {selectedRoom.imagenes.map((imagen, index) => (
                   <img
@@ -330,9 +330,9 @@ const Habitaciones = () => {
                 ))}
               </Carousel>
               <p>{selectedRoom.caracteristicas}</p>
-              <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+              <Link className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" to={"/reservar"}>
                 Reservar
-              </button>
+              </Link>
               
             </div>
           </ModalHabit>
