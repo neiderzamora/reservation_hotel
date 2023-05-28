@@ -13,9 +13,7 @@ const AppRoutes = () => {
           <Route path="/panel" element={<Panel />} />
           <Route path="/" element={<Habitaciones />} />
           <Route path="/reservar" element={<Reserva />} />
-          <Route path="/editar-reserva/:id" element={<EditReserve />} /> {/* agregar el id cuando se consuma datos del back */}
-          {/* <Route path="/habitaciones" element={<Habitaciones />} /> */}
-          <Route path="/*" element={<Page_not_found />} />
+          
         </Routes>
       </>
     );
