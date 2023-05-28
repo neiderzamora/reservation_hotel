@@ -15,7 +15,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Habitaciones />} />
           <Route path="/reservar" element={<Reserva />} />
           <Route path="/add" element={<AddHabit />} />
-          <Route path="/editarreserva" element={<EditReserve />} /> {/* agregar el id cuando se consuma datos del back */}
+          <Route path="/editar-reserva/:id" element={<EditReserve />} /> {/* agregar el id cuando se consuma datos del back */}
           {/* <Route path="/habitaciones" element={<Habitaciones />} /> */}
           <Route path="/*" element={<Page_not_found />} />
         </Routes>
