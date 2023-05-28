@@ -1,7 +1,7 @@
 import {
   UsersIcon,
   PhoneArrowUpRightIcon,
-  AtSymbolIcon,
+  MegaphoneIcon,
   PencilSquareIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
@@ -10,10 +10,41 @@ import { TrashIcon, CakeIcon } from "@heroicons/react/24/outline";
 import Pagination from "./Pagination";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { getReserves, deleteReserve } from "../../api/reserves.api";
 import { toast } from "react-hot-toast";
 import Select from "react-select";
 
 const Table = () => {
+  const [reservas, setReservas] = useState([]);
+
+  useEffect(() => {
+    const fetchReservas = async () => {
+      try {
+        const response = await getReserves();
+        setReservas(response.data);
+      } catch (error) {
+        toast.error("Error al cargar los datos", {
+          position: "top-right",
+        });
+        console.error("Error al obtener las reservas:", error);
+      }
+    };
+
+    fetchReservas();
+  }, []);
+
+  const handleDeleteReserve = async (id) => {
+    try {
+      await deleteReserve(id);
+      setReservas(reservas.filter((reserva) => reserva.id !== id));
+      toast.success("Reserva eliminada con éxito", {
+        position: "top-right",
+      });
+    } catch (error) {
+      console.error("Error al eliminar la reserva:", error);
+    }
+  };
+
   /* const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
@@ -177,20 +208,12 @@ const Table = () => {
                     <UsersIcon className="text-blue-500 font-bold h-5 w-5" />
                   </th>
 
-                  <th className="p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
-                    Descripción
+                  <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
+                    Nombres
                   </th>
 
                   <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
-                    Estado
-                  </th>
-
-                  <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
-                    Nombre
-                  </th>
-
-                  <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
-                    Apellido
+                    Apellidos
                   </th>
 
                   <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
@@ -202,318 +225,158 @@ const Table = () => {
                   </th>
 
                   <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
-                    Fecha Creación
-                  </th>
-
-                  <th className="w-32 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
-                    Correo
+                    Metodo de Pago
                   </th>
 
                   <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
-                    Numero Telefono
+                    Direccion Factura
+                  </th>
+
+                  <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
+                    Habitacion
+                  </th>
+
+                  <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
+                    Telefono
+                  </th>
+
+                  <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200">
+                    Estado
                   </th>
 
                   <th className="w-24 p-3 text-sm font-WinterPoppins tracking-wide text-left text-gray-200"></th>
                 </tr>
               </thead>
 
-              {/* 
               <tbody className="divide-y divide-gray-100 dark:divide-gray-900">
-                  {currentPageData.map((item, index) => (
-                    <tr
-                      key={item.id}
-                      className={`${
-                        index % 2 === 0
-                          ? "bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer"
-                          : "bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer"
-                      }`}
-                    >
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        <b className="font-bold text-blue-500 font-WinterPoppins">
-                          {item.num_person}
-                        </b>
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.description}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200">
-                        <span
-                          className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg font-WinterPoppins bg-opacity-50 ${
-                            item.status.toLowerCase() === "activo"
-                              ? "text-green-800 bg-green-200 dark:text-green-200 dark:bg-green-800"
-                              : "dark:text-red-200 dark:bg-red-800 text-red-800 bg-red-200"
-                          }`}
-                        >
-                          {item.status}
-                        </span>
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.campus}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.name}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.last_name}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.date}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.hour}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.created_at}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.email}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.telefone_number}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                        {item.decoration ? "Sí" : "No"}
-                      </td>
-  
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap flex items-center space-x-2">
-                        <Link to={`/editar-reserva/${item.id}`}>
-                          <PencilSquareIcon className="h-5 w-5 text-gray-80 dark:text-gray-200" />
-                        </Link>
-                        <button onClick={() => handleDelete(item.id)}>
-                          <TrashIcon className="h-5 w-5 text-red-600" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody> 
-                */}
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-900">
-                <tr className="bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer">
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <b className="font-bold text-blue-500 font-WinterPoppins">
-                      12
-                    </b>
-                  </td>
+                {reservas.map((reserva, index) => (
+                  <tr
+                    key={reserva.id}
+                    className={`${
+                      index % 2 === 0
+                        ? "bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer"
+                        : "bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer"
+                    }`}
+                  >
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                      <b className="font-bold text-blue-500 font-WinterPoppins">
+                        {reserva.estancia}
+                      </b>
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    reserva con niños
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.primer_nombre}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    activo
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.segundo_nombre}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    jordan
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.fecha}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    cacorro
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.hora}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    15/05/2023
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.metodo_pago}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    15:00
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.direccion_factura}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    14/15/2023 17:00
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.habitacion}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    jordangei@gmail.com
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.numero_contacto}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
-                    312975614
-                  </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap dark:text-gray-200 font-WinterPoppins">
+                      {reserva.estado ? "Disponible" : "No Dispobible"}
+                    </td>
 
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap flex items-center space-x-2">
-                    <Link to="/editarreserva">
-                      <PencilSquareIcon className="h-5 w-5 text-gray-80 dark:text-gray-200" />
-                    </Link>
-                    <button>
-                      <TrashIcon className="h-5 w-5 text-red-600" />
-                    </button>
-                  </td>
-                </tr>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap flex items-center space-x-2">
+                      <Link to={`/editar-reserva/${reserva.id}`}>
+                        <PencilSquareIcon className="h-5 w-5 text-gray-80 dark:text-gray-200" />
+                      </Link>
+                      <button
+                        title="Eliminar reserva"
+                        onClick={() => handleDeleteReserve(reserva.id)}
+                      >
+                        <TrashIcon className="h-5 w-5 text-red-600" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
-          {/*             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
-              {currentPageData.map((item) => (
-                <div className="bg-white space-y-3 p-4 rounded-lg shadow dark:bg-gray-800 dark:shadow-lg dark:shadow-offset-x-2 dark:shadow-offset-y-4 dark:shadow-opacity-50 dark:shadow-color-blue-500 hover:bg-gray-100 dark:hover:bg-gray-950">
-                  <div className="flex items-center space-x-2 text-sm">
-                    <UsersIcon className="text-blue-500 font-bold h-5 w-5" />
-                    <div>
-                      <b className="text-blue-500 font-bold">{item.num_person}</b>
-                    </div>
-  
-                    <div className="text-blue-800 bg-blue-200 rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium dark:bg-blue-800 dark:text-blue-200">
-                      {item.date}
-                    </div>
-                    <div className="text-blue-800 bg-blue-200 rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium dark:bg-blue-800 dark:text-blue-200">
-                      {item.hour}
-                    </div>
-  
-                    <div>
-                      <span
-                        className={`p-1.5 text-xs font-medium uppercase tracking-wider  rounded-lg bg-opacity-50 ${
-                          item.status.toLowerCase() === "activo"
-                            ? "text-green-800 bg-green-200 dark:bg-green-800 dark:text-green-200"
-                            : "text-red-800 bg-red-200 dark:bg-red-800 dark:text-red-200"
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                    </div>
-                  </div>
-  
-                  <div className="flex items-center space-x-2 text-sm">
-                    <div className="text-gray-500 dark:text-gray-200">
-                      {item.name}
-                    </div>
-                    <div className="text-gray-500 dark:text-gray-200">
-                      {item.last_name}
-                    </div>
-  
-                    <div>
-                      <span className="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50 dark:bg-yellow-800 dark:text-yellow-200">
-                        {item.campus}
-                      </span>
-                    </div>
-                  </div>
-  
-                  <div className="flex items-center space-x-2 text-sm">
-                    <PhoneArrowUpRightIcon className="w-5 h-5 text-gray-600 dark:text-gray-50" />
-  
-                    <div className="text-gray-500 dark:text-gray-200">
-                      {item.telefone_number}
-                    </div>
-                    <div className="text-blue-800 rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium dark:text-blue-400">
-                      {item.created_at}
-                    </div>
-                  </div>
-  
-                  <div className="flex items-center space-x-2 text-sm">
-                    <AtSymbolIcon className="w-5 h-5 dark:text-gray-50 " />
-  
-                    <div className="text-sm text-gray-700 dark:text-gray-200">
-                      {item.email}
-                    </div>
-                  </div>
-  
-                  <div className="flex items-center space-x-2 text-sm">
-                    <CakeIcon className="w-5 h-5  dark:text-yellow-200" />
-  
-                    <div className="text-sm text-gray-700 dark:text-gray-200">
-                      {item.decoration ? "Sí" : "No"}
-                    </div>
-                  </div>
-  
-                  <div className="text-sm text-gray-700 dark:text-gray-200">
-                    {item.description}
-                  </div>
-  
-                  <hr className="my-4 border border-solid border-gray-600 border-opacity-50 dark:border-gray-400" />
-  
-                  <div className="flex items-center justify-end space-x-2 text-sm">
-                    <button className="bg-gray-200 rounded-3xl w-9 flex items-center justify-center dark:bg-gray-900">
-                      <Link to={`/editar-reserva/${item.id}`}>
-                        <PencilSquareIcon className="h-8 w-8 p-1 text-gray-800 dark:text-gray-200" />
-                      </Link>
-                    </button>
-  
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className="bg-gray-200 rounded-3xl w-9 flex items-center justify-center dark:bg-gray-900"
-                    >
-                      <TrashIcon className="h-8 w-8 p-1 text-red-500" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            /> */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
-            <div className="space-y-3 p-4 rounded-lg bg-gray-800 shadow-lg shadow-offset-x-2 shadow-offset-y-4 shadow-opacity-50 shadow-color-blue-500">
-              <div className="flex items-center space-x-2 text-sm">
-                <UsersIcon className="text-blue-500 font-bold h-5 w-5" />
-                <div>
-                  <b className="text-blue-500 font-bold">12</b>
+            {reservas.map((reserva) => (
+              <div className="space-y-3 p-4 rounded-lg bg-gray-800 shadow-lg shadow-offset-x-2 shadow-offset-y-4 shadow-opacity-50 shadow-color-blue-500">
+                <div className="flex items-center space-x-2 text-sm">
+                  <UsersIcon className="text-blue-500 font-bold h-5 w-5" />
+                  <div>
+                    <b className="text-blue-500 font-bold">
+                      {reserva.estancia}
+                    </b>
+                  </div>
+
+                  <div className="rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium bg-blue-800 text-blue-200">
+                    {reserva.fecha}
+                  </div>
+                  <div className="rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium bg-blue-800 text-blue-200">
+                    {reserva.hora}
+                  </div>
+
+                  <div>
+                    <span className="p-1.5 text-xs font-medium uppercase tracking-wider  rounded-lg bg-opacity-50 bg-green-800 text-green-200">
+                      {reserva.metodo_pago}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium bg-blue-800 text-blue-200">
-                  15/05/2023
-                </div>
-                <div className="rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium bg-blue-800 text-blue-200">
-                  15:00
+                <div className="flex items-center space-x-2 text-sm">
+                  <div className="text-gray-200">{reserva.primer_nombre}</div>
+                  <div className="text-gray-200">{reserva.segundo_nombre}</div>
                 </div>
 
-                <div>
-                  <span className="p-1.5 text-xs font-medium uppercase tracking-wider  rounded-lg bg-opacity-50 bg-green-800 text-green-200">
-                    activo
-                  </span>
+                <div className="flex items-center space-x-2 text-sm">
+                  <PhoneArrowUpRightIcon className="w-5 h-5 text-gray-50" />
+
+                  <div className="text-gray-200">{reserva.numero_contacto}</div>
+                  <MegaphoneIcon className="text-red-500 font-bold h-5 w-5" />
+                  <div>
+                    <b className="text-red-200 font-bold">
+                      {reserva.estado ? "Disponible" : "No Dispobible"}
+                    </b>
+                  </div>
+                </div>
+
+                <hr className="my-4 border border-solid border-opacity-50 border-gray-400" />
+
+                <div className="flex items-center justify-end space-x-2 text-sm">
+                  <button className="bg-gray-200 rounded-3xl w-9 flex items-center justify-center dark:bg-gray-900">
+                    <Link to={`/editar-reserva/${reserva.id}`}>
+                      <PencilSquareIcon className="h-8 w-8 p-1 text-gray-800 dark:text-gray-200" />
+                    </Link>
+                  </button>
+
+                  <button
+                    onClick={() => handleDeleteReserve(reserva.id)}
+                    className="bg-gray-200 rounded-3xl w-9 flex items-center justify-center dark:bg-gray-900"
+                  >
+                    <TrashIcon className="h-8 w-8 p-1 text-red-500" />
+                  </button>
                 </div>
               </div>
-
-              <div className="flex items-center space-x-2 text-sm">
-                <div className="text-gray-200">jordan</div>
-                <div className="text-gray-200">cacorro</div>
-              </div>
-
-              <div className="flex items-center space-x-2 text-sm">
-                <PhoneArrowUpRightIcon className="w-5 h-5 text-gray-50" />
-
-                <div className="text-gray-200">31264958741</div>
-                <div className="rounded-lg bg-opacity-50 p-1.5 tracking-wider text-xs font-medium text-blue-400">
-                  14/05/2023 17:00
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2 text-sm">
-                <AtSymbolIcon className="w-5 h-5 text-gray-50 " />
-
-                <div className="text-sm text-gray-200">
-                  jordancacorro@gmail.com
-                </div>
-              </div>
-
-              <div className="text-sm text-gray-200">reserva con niños</div>
-
-              <hr className="my-4 border border-solid border-opacity-50 border-gray-400" />
-
-              <div className="flex items-center justify-end space-x-2 text-sm">
-                <button className="rounded-3xl w-9 flex items-center justify-center bg-gray-900">
-                <Link to="/editarreserva">
-                  <PencilSquareIcon className="h-8 w-8 p-1 text-gray-200" />
-                  </Link>
-                </button>
-
-                <button className="rounded-3xl w-9 flex items-center justify-center bg-gray-900">
-                  <TrashIcon className="h-8 w-8 p-1 text-red-500" />
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
           {/* vista de movil */}
           <Pagination />
