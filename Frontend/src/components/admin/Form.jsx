@@ -9,11 +9,13 @@ const Form = () => {
 
   const navigate = useNavigate();
   const params = useParams();
+  const token = localStorage.getItem("token");
+
   console.log(params);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await updateReserve(params.id, data);
+      await updateReserve(params.id, data, token);
       navigate("/panel");
       toast.success("Reserva actualizada con exito", {
         position: "top-right",
@@ -42,7 +44,7 @@ const Form = () => {
           estado,
           identificacion,
         },
-      } = await getReserve(params.id);
+      } = await getReserve(params.id, token);
       setValue("estancia", estancia);
       setValue("primer_nombre", primer_nombre);
       setValue("segundo_nombre", segundo_nombre);
