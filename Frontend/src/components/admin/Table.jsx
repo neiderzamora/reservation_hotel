@@ -16,11 +16,12 @@ import Select from "react-select";
 
 const Table = () => {
   const [reservas, setReservas] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchReservas = async () => {
       try {
-        const response = await getReserves();
+        const response = await getReserves(token);
         setReservas(response.data);
       } catch (error) {
         toast.error("Error al cargar los datos", {
@@ -35,7 +36,7 @@ const Table = () => {
 
   const handleDeleteReserve = async (id) => {
     try {
-      await deleteReserve(id);
+      await deleteReserve(id, token);
       setReservas(reservas.filter((reserva) => reserva.id !== id));
       toast.success("Reserva eliminada con éxito", {
         position: "top-right",
