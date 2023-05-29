@@ -125,7 +125,7 @@ const SIGN_IN = () => {
                   <span className="sr-only">Home</span>
                   <img
                     alt="Hotel"
-                    src="https://cdn.discordapp.com/attachments/1008571051392909393/1100856618863820871/Balvin_a_bird_house_made_for_bats_to_be_used_as_a_logo_for_a_ho_af48a1ea-5b41-4668-b557-d485f9d303b0.png"
+                    src="https://cdn.discordapp.com/attachments/1008571051392909393/1088916706556121209/ElvisSP_la_palabra_MAQYA_para_logo_hotel_y_terraza_minimalista__57244e16-fffa-47ff-8db7-883db08fdf5f.png"
                     className="h-16 w-16 rounded-full object-cover shadow-xl"
                   />
                 </a>
@@ -145,7 +145,7 @@ const SIGN_IN = () => {
                   <div className="col-span-6 flex justify-center h-26">
                     <img
                       alt="hotel"
-                      src="https://cdn.discordapp.com/attachments/1008571051392909393/1100856618863820871/Balvin_a_bird_house_made_for_bats_to_be_used_as_a_logo_for_a_ho_af48a1ea-5b41-4668-b557-d485f9d303b0.png"
+                      src="https://cdn.discordapp.com/attachments/1008571051392909393/1088916706556121209/ElvisSP_la_palabra_MAQYA_para_logo_hotel_y_terraza_minimalista__57244e16-fffa-47ff-8db7-883db08fdf5f.png"
                       className="h-20 w-20 hidden lg:block rounded-full"
                     />
                   </div>

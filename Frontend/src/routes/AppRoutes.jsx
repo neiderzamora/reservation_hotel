@@ -7,6 +7,7 @@ import EditReserve from "../pages/EditReserve";
 import Reserva from "../pages/Reserva";
 import AddHabit from "../pages/AddHabit";
 import SIGN_IN from "../pages/SIGN_IN";
+import { Toaster } from "react-hot-toast";
 
 const AppRoutes = () => {
     return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
           {/* <Route path="/habitaciones" element={<Habitaciones />} /> */}
           <Route path="/*" element={<Page_not_found />} />
         </Routes>
+        <Toaster />
       </>
     );
   };
