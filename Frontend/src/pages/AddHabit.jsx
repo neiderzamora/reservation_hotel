@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import Header from '../components/admin/Header'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import Header from '../components/admin/Header';
+import axios from 'axios';
 
 const AddHabit = () => {
-
-  const apiUrl = 'http://127.0.0.1/8000/';
+  const apiUrl = 'http://127.0.0.1:8000/habitaciones/api/';
 
   useEffect(() => {
     fetchHabitaciones();
@@ -12,7 +11,7 @@ const AddHabit = () => {
 
   const fetchHabitaciones = async () => {
     try {
-      const response = await axios.get(`${apiUrl}api/habitaciones/`);
+      const response = await axios.get(`${apiUrl}habitaciones/`);
       setHabitaciones(response.data);
     } catch (error) {
       console.log(error);
@@ -21,17 +20,26 @@ const AddHabit = () => {
 
   const crearHabitacion = async (habitacionData) => {
     try {
-      await axios.post(`${apiUrl}api/habitaciones/`, habitacionData);
+      const disponibilidad = habitacionData.disponibilidad === "Disponible";
+      const data = { ...habitacionData, disponibilidad };
+      const response = await axios.post(`${apiUrl}habitaciones/`, data);
       fetchHabitaciones();
+      setHabitaciones([...habitaciones, response.data]);
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   const actualizarHabitacionApi = async (id, habitacionData) => {
     try {
-      await axios.put(`${apiUrl}api/habitaciones/${id}/`, habitacionData);
+      const disponibilidad = habitacionData.disponibilidad === "Disponible";
+      const data = { ...habitacionData, disponibilidad };
+      await axios.put(`${apiUrl}habitaciones/${id}/`, data);
       fetchHabitaciones();
+      const habitacionActualizada = { ...habitaciones[indiceEdicion], ...habitacionData };
+      const nuevasHabitaciones = [...habitaciones];
+      nuevasHabitaciones[indiceEdicion] = habitacionActualizada;
+      setHabitaciones(nuevasHabitaciones);
     } catch (error) {
       console.log(error);
     }
@@ -39,8 +47,10 @@ const AddHabit = () => {
 
   const eliminarHabitacion = async (id) => {
     try {
-      await axios.delete(`${apiUrl}api/habitaciones/${id}/`);
+      await axios.delete(`${apiUrl}habitaciones/${id}/`);
       fetchHabitaciones();
+      const nuevasHabitaciones = habitaciones.filter((habitacion) => habitacion.id !== id);
+      setHabitaciones(nuevasHabitaciones);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +63,7 @@ const AddHabit = () => {
     precio: '',
     capacidad: '',
     caracteristicas: '',
-    numeroHabitacion: '',
+    numero: '',
     disponibilidad: '',
   });
   const [modoEdicion, setModoEdicion] = useState(false);
@@ -62,12 +72,19 @@ const AddHabit = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setHabitacionActual({ ...habitacionActual, [name]: value });
+  
+    if (name === 'disponibilidad') {
+      const disponibilidad = value === 'Disponible';
+      setHabitacionActual({ ...habitacionActual, disponibilidad });
+    } else {
+      setHabitacionActual({ ...habitacionActual, [name]: value });
+    }
   };
+  
 
   const agregarHabitacion = () => {
     if (validarCampos()) {
-      setHabitaciones([...habitaciones, habitacionActual]);
+      crearHabitacion(habitacionActual);
       limpiarFormulario();
     }
   };
@@ -90,9 +107,8 @@ const AddHabit = () => {
   };
 
   const borrarHabitacion = (index) => {
-    const nuevasHabitaciones = [...habitaciones];
-    nuevasHabitaciones.splice(index, 1);
-    setHabitaciones(nuevasHabitaciones);
+    const id = habitaciones[index].id;
+    eliminarHabitacion(id);
   };
 
   const limpiarFormulario = () => {
@@ -102,7 +118,7 @@ const AddHabit = () => {
       precio: '',
       capacidad: '',
       caracteristicas: '',
-      numeroHabitacion: '',
+      numero: '',
       disponibilidad: '',
     });
     setError('');
@@ -115,12 +131,18 @@ const AddHabit = () => {
       habitacionActual.precio.trim() === '' ||
       habitacionActual.capacidad.trim() === '' ||
       habitacionActual.caracteristicas.trim() === '' ||
-      habitacionActual.numeroHabitacion.trim() === '' ||
-      habitacionActual.disponibilidad.trim() === ''
+      habitacionActual.numero.trim() === ''
     ) {
       alert('Todos los campos son obligatorios');
       return false;
     }
+  
+    // Validar disponibilidad si es una cadena de texto
+    if (typeof habitacionActual.disponibilidad === 'string' && habitacionActual.disponibilidad.trim() === '') {
+      alert('La disponibilidad es obligatoria');
+      return false;
+    }
+  
     setError('');
     return true;
   };
@@ -219,13 +241,13 @@ const AddHabit = () => {
       </div>
 
       <div className="flex flex-wrap mb-4">
-        <label htmlFor="numeroHabitacion" className="w-full">
+        <label htmlFor="numero" className="w-full">
           Número de Habitación:
           <input
             type="text"
-            id="numeroHabitacion"
-            name="numeroHabitacion"
-            value={habitacionActual.numeroHabitacion}
+            id="numero"
+            name="numero"
+            value={habitacionActual.numero}
             onChange={handleInputChange}
             className="w-full bg-gray-800 border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-500"
             required
@@ -300,7 +322,7 @@ const AddHabit = () => {
         <td className="px-4 py-2 whitespace-nowrap overflow-hidden overflow-ellipsis">
           {habitacion.caracteristicas.slice(0, 30)}
         </td>
-        <td className="px-4 py-2">{habitacion.numeroHabitacion}</td>
+        <td className="px-4 py-2">{habitacion.numero}</td>
         <td className="px-4 py-2">{habitacion.disponibilidad}</td>
         <td className="px-4 py-2">
           <button
