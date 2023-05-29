@@ -1,11 +1,102 @@
 import React, {useState, useEffect} from 'react'
 import Header from '../components/admin/Header'
-//  import axios from 'axios'
+import axios from 'axios'
 
 const AddHabit = () => {
 
-    const [habitaciones, setHabitaciones] = useState([]);
-    const [habitacionActual, setHabitacionActual] = useState({
+  const apiUrl = 'http://127.0.0.1/8000/';
+
+  useEffect(() => {
+    fetchHabitaciones();
+  }, []);
+
+  const fetchHabitaciones = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}api/habitaciones/`);
+      setHabitaciones(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const crearHabitacion = async (habitacionData) => {
+    try {
+      await axios.post(`${apiUrl}api/habitaciones/`, habitacionData);
+      fetchHabitaciones();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const actualizarHabitacionApi = async (id, habitacionData) => {
+    try {
+      await axios.put(`${apiUrl}api/habitaciones/${id}/`, habitacionData);
+      fetchHabitaciones();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const eliminarHabitacion = async (id) => {
+    try {
+      await axios.delete(`${apiUrl}api/habitaciones/${id}/`);
+      fetchHabitaciones();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [habitaciones, setHabitaciones] = useState([]);
+  const [habitacionActual, setHabitacionActual] = useState({
+    imagen: '',
+    tipo: '',
+    precio: '',
+    capacidad: '',
+    caracteristicas: '',
+    numeroHabitacion: '',
+    disponibilidad: '',
+  });
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [indiceEdicion, setIndiceEdicion] = useState(null);
+  const [error, setError] = useState('');
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setHabitacionActual({ ...habitacionActual, [name]: value });
+  };
+
+  const agregarHabitacion = () => {
+    if (validarCampos()) {
+      setHabitaciones([...habitaciones, habitacionActual]);
+      limpiarFormulario();
+    }
+  };
+
+  const editarHabitacion = (index) => {
+    const habitacionSeleccionada = habitaciones[index];
+    setHabitacionActual(habitacionSeleccionada);
+    setModoEdicion(true);
+    setIndiceEdicion(index);
+  };
+
+  const actualizarHabitacion = () => {
+    if (validarCampos()) {
+      const id = habitaciones[indiceEdicion].id;
+      actualizarHabitacionApi(id, habitacionActual);
+      limpiarFormulario();
+      setModoEdicion(false);
+      setIndiceEdicion(null);
+    }
+  };
+
+  const borrarHabitacion = (index) => {
+    const nuevasHabitaciones = [...habitaciones];
+    nuevasHabitaciones.splice(index, 1);
+    setHabitaciones(nuevasHabitaciones);
+  };
+
+  const limpiarFormulario = () => {
+    setHabitacionActual({
       imagen: '',
       tipo: '',
       precio: '',
@@ -14,73 +105,27 @@ const AddHabit = () => {
       numeroHabitacion: '',
       disponibilidad: '',
     });
-    const [modoEdicion, setModoEdicion] = useState(false);
-    const [indiceEdicion, setIndiceEdicion] = useState(null);
-    const [error, setError] = useState('');
-  
-    const handleInputChange = (event) => {
-      const { name, value } = event.target;
-      setHabitacionActual({ ...habitacionActual, [name]: value });
-    };
-  
-    const agregarHabitacion = () => {
-      if (validarCampos()) {
-        setHabitaciones([...habitaciones, habitacionActual]);
-        limpiarFormulario();
-      }
-    };
-  
-    const editarHabitacion = (index) => {
-      const habitacionSeleccionada = habitaciones[index];
-      setHabitacionActual(habitacionSeleccionada);
-      setModoEdicion(true);
-      setIndiceEdicion(index);
-    };
-  
-    const actualizarHabitacion = () => {
-      if (validarCampos()) {
-        const nuevasHabitaciones = [...habitaciones];
-        nuevasHabitaciones[indiceEdicion] = habitacionActual;
-        setHabitaciones(nuevasHabitaciones);
-        limpiarFormulario();
-        setModoEdicion(false);
-        setIndiceEdicion(null);
-      }
-    };
-  
-    const borrarHabitacion = (index) => {
-      const nuevasHabitaciones = [...habitaciones];
-      nuevasHabitaciones.splice(index, 1);
-      setHabitaciones(nuevasHabitaciones);
-    };
-  
-    const limpiarFormulario = () => {
-      setHabitacionActual({
-        imagen: '',
-        tipo: '',
-        precio: '',
-        capacidad: '',
-        caracteristicas: '',
-        numeroHabitacion: '',
-        disponibilidad: '',
-      });
-      setError('');
-    };
-    const validarCampos = () => {
-        if (
-          habitacionActual.imagen.trim() === '' ||
-          habitacionActual.tipo.trim() === '' ||
-          habitacionActual.precio.trim() === '' ||
-          habitacionActual.capacidad.trim() === '' ||
-          habitacionActual.caracteristicas.trim() === '' ||
-          habitacionActual.numeroHabitacion.trim() === '' ||
-          habitacionActual.disponibilidad.trim() === ''
-        ) {
-          alert('Por favor, completa todos los campos');
-          return false;
-        }
-        return true;
-      };
+    setError('');
+  };
+
+  const validarCampos = () => {
+    if (
+      habitacionActual.imagen.trim() === '' ||
+      habitacionActual.tipo.trim() === '' ||
+      habitacionActual.precio.trim() === '' ||
+      habitacionActual.capacidad.trim() === '' ||
+      habitacionActual.caracteristicas.trim() === '' ||
+      habitacionActual.numeroHabitacion.trim() === '' ||
+      habitacionActual.disponibilidad.trim() === ''
+    ) {
+      alert('Todos los campos son obligatorios');
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
+
 
     
   return (

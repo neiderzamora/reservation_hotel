@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Header from "../components/admin/Header";
@@ -74,7 +74,25 @@ const Habitaciones = () => {
   };
 
   /* Habitaciones para seleccionar */
-  const [habitaciones, setHabitaciones] = useState(habitacionesData);
+  //const [habitaciones, setHabitaciones] = useState(habitacionesData);
+  const [habitaciones, setHabitaciones] = useState([]);
+
+  useEffect(() => {
+    async function obtenerHabitaciones() {
+      try {
+        const response = await fetch('http://127.0.0.1/8000/api/habitaciones');
+        if (!response.ok) {
+          throw new Error('Error al obtener las habitaciones');
+        }
+        const data = await response.json();
+        setHabitaciones(data);
+      } catch (error) {
+        console.error('Error al obtener las habitaciones:', error);
+      }
+    }
+  
+    obtenerHabitaciones();
+  }, []);
 
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroPrecio, setFiltroPrecio] = useState("");
