@@ -1,35 +1,55 @@
+import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 
 import logo from "../../assets/images/hotel_without_background.png";
 
-const image = "https://media.discordapp.net/attachments/1008571130447155311/1108742817821507605/Pantin_a_profile_picture_of_a_teenager_with_a_beanie_talking_to_077e8f70-e162-46fd-9c5d-1b4800250138.png?width=702&height=702"
+const image =
+  "https://media.discordapp.net/attachments/1008571130447155311/1108742817821507605/Pantin_a_profile_picture_of_a_teenager_with_a_beanie_talking_to_077e8f70-e162-46fd-9c5d-1b4800250138.png?width=702&height=702";
 
 const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    image,
+  name: "admin",
+  email: "admin@gmail.com",
+  imageUrl: image,
 };
 const navigation = [
-  { name: "Dashboard", href: "/panel", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
+  { name: "Reservas", href: "/panel", current: true },
+  { name: "Habitaciones", href: "#", current: false },
 ];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
+const userNavigation = [{ name: "Cerrar Sesión" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Header() {
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success("Sesión cerrada exitosamente", {
+        position: "top-right",
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+        localStorage.removeItem("token");
+      }, 2000); // Esperar 2 segundos antes de redirigir
+    } catch (error) {
+      console.error(error);
+      toast.error("Algo ha salido mal", {
+        position: "top-right",
+      });
+    }
+  };
+
   return (
     <>
       <div className="min-h-full">
@@ -40,11 +60,7 @@ export default function Header() {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-8 w-8"
-                        src={logo}
-                        alt="Your Company"
-                      />
+                      <img className="h-8 w-8" src={logo} alt="Your Company" />
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
@@ -102,10 +118,10 @@ export default function Header() {
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
                                   <a
-                                    href={item.href}
+                                    onClick={handleLogout}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
+                                      "block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                                     )}
                                   >
                                     {item.name}
@@ -187,8 +203,8 @@ export default function Header() {
                       <Disclosure.Button
                         key={item.name}
                         as="a"
-                        href={item.href}
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        onClick={handleLogout}
+                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
                       >
                         {item.name}
                       </Disclosure.Button>

@@ -161,6 +161,7 @@ const Habitaciones = () => {
               Contactanos
             </a>
             </li>
+            <li><a href="/agendar-reserva/"><a class="text-white hover:text-gray-300 cursor-pointer">Agendar Reserva</a></a></li>
           </ul>
         </div>
       </nav>

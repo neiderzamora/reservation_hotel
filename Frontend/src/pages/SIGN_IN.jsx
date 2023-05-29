@@ -100,7 +100,7 @@ const SIGN_IN = () => {
 
               <div className="backdrop-blur backdrop-opacity-75 rounded-full p-7">
                 <h2 className="mt-6 text-2xl rounded-full font-bold text-gray-200 sm:text-3xl md:text-4xl text-shadow font-WinterPoppins">
-                  Bienvenido a Hotel
+                  Bienvenido a Bird 🥂
                 </h2>
 
                 <p className="mt-4 rounded-full leading-relaxed text-white/90 text-shadow font-WinterPoppins">
@@ -131,7 +131,7 @@ const SIGN_IN = () => {
                 </a>
 
                 <h1 className="mt-2 text-3xl font-bold text-gray-200 sm:text-3xl md:text-4xl font-WinterPoppins">
-                  Bienevenido a Hotel 🥂
+                  Bienevenido a Bird 🥂
                 </h1>
 
                 <p className="mt-4 leading-relaxed text-gray-200 font-WinterPoppins">
@@ -164,7 +164,7 @@ const SIGN_IN = () => {
                       name="username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="mt-1 w-full rounded-md border-gray-300 bg-black-field text-sm text-gray-300 shadow-sm focus:ring-purple-500 font-WinterPoppins"
+                      className="mt-1 w-full rounded-md border-gray-300 bg-gray-800 text-sm text-gray-300 shadow-sm focus:ring-purple-500 font-WinterPoppins"
                     />
                   </div>
 
@@ -183,7 +183,7 @@ const SIGN_IN = () => {
                       name="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="mt-1 w-full rounded-md border-gray-300 bg-black-field text-sm text-gray-300 shadow-sm focus:ring-purple-500 font-WinterPoppins"
+                      className="mt-1 w-full rounded-md border-gray-300 bg-gray-800 text-sm text-gray-300 shadow-sm focus:ring-purple-500 font-WinterPoppins"
                     />
                   </div>
 
