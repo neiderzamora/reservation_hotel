@@ -1,16 +1,16 @@
 const habitacionesData = [
-      {
+/*       {
         id: 4,
         nombre: 'Habitación Individual',
         image: '/HabitacionesIMG/individual.jpg',
         caracteristicas:
           'La habitación doble ofrece una cama grande y confortable, vistas panorámicas y acceso a servicios adicionales como desayuno buffet y servicio de habitaciones las 24 horas.',
-        imagenes: ['/HabitacionesIMG/individual.jpg','/HabitacionesIMG/individual.jpg'],
+        imagene: ['/HabitacionesIMG/individual.jpg','/HabitacionesIMG/individual.jpg'],
         cantidadPersonas : 1,
         precio : '50.000',
         tipo: 'Individual'
-      },
-      {
+      }, */
+/*       {
         id: 6,
         nombre: 'Habitación Doble',
         image: '/HabitacionesIMG/doble_5.jpg',
@@ -97,7 +97,7 @@ const habitacionesData = [
         cantidadPersonas : 8,
         precio : '350.000',
         tipo: 'Presidencial'
-      },
+      }, */
 
 /* En Caso de Querer poner Más descomentar esto */
 

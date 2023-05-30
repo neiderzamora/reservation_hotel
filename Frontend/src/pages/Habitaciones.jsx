@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Header from "../components/admin/Header";
 import ModalHabit from "./ModalHabit";
 import habitacionesData from "./habitacionesData";
 import { Link } from "react-router-dom";
 import { RiFacebookCircleFill, RiTwitterFill, RiInstagramLine, RiMapPin2Line } from "react-icons/ri";
+import axios from "axios";
 
 const Habitaciones = () => {
 
@@ -57,6 +57,22 @@ const Habitaciones = () => {
     // Agrega más objetos para más imágenes del carrusel
   ];
 
+      const apiUrl = 'http://127.0.0.1:8000/habitaciones/';
+
+      useEffect(() => {
+        fetchHabitaciones();
+      }, []);
+
+      const fetchHabitaciones = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}api/habitaciones/`);
+          setHabitaciones(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+
   const [showModal, setShowModal] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [hoveredRoom, setHoveredRoom] = useState(null);
@@ -77,22 +93,6 @@ const Habitaciones = () => {
   //const [habitaciones, setHabitaciones] = useState(habitacionesData);
   const [habitaciones, setHabitaciones] = useState([]);
 
-  useEffect(() => {
-    async function obtenerHabitaciones() {
-      try {
-        const response = await fetch('http://127.0.0.1/8000/api/habitaciones');
-        if (!response.ok) {
-          throw new Error('Error al obtener las habitaciones');
-        }
-        const data = await response.json();
-        setHabitaciones(data);
-      } catch (error) {
-        console.error('Error al obtener las habitaciones:', error);
-      }
-    }
-  
-    obtenerHabitaciones();
-  }, []);
 
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroPrecio, setFiltroPrecio] = useState("");
@@ -105,7 +105,7 @@ const Habitaciones = () => {
     ...new Set(habitaciones.map((habitacion) => habitacion.precio)),
   ];
   const cantidadesPersonas = [
-    ...new Set(habitaciones.map((habitacion) => habitacion.cantidadPersonas)),
+    ...new Set(habitaciones.map((habitacion) => habitacion.capacidad)),
   ];
 
   const habitacionesFiltradas = habitaciones.filter((habitacion) => {
@@ -115,7 +115,7 @@ const Habitaciones = () => {
       parseFloat(habitacion.precio) === parseFloat(filtroPrecio);
     const cumplePersonas =
       filtroPersonas === "" ||
-      habitacion.cantidadPersonas === parseInt(filtroPersonas);
+      habitacion.capacidad === parseInt(filtroPersonas);
 
     return cumpleTipo && cumplePrecio && cumplePersonas;
   });
@@ -294,8 +294,8 @@ const Habitaciones = () => {
                   onMouseLeave={() => setHoveredRoom(null)}
                 >
                   <img
-                    src={habitacion.image}
-                    alt={habitacion.nombre}
+                    src={habitacion.imagen}
+                    alt={habitacion.tipo}
                     className="w-full h-64 object-cover rounded-lg"
                   />
                   
@@ -305,13 +305,13 @@ const Habitaciones = () => {
                         <p className="text-lg font-bold">
                           ${habitacion.precio} Pesos
                         </p>
-                        <p>{habitacion.cantidadPersonas} personas</p>
+                        <p>{habitacion.capacidad} personas</p>
                       </div>
                     </button>
                   )}
                 </div>
                 <h2 className="mt-2 text-xl font-semibold">
-                  {habitacion.nombre}
+                  Habitación {habitacion.tipo}
                 </h2>
               </div>
             ))}
@@ -326,36 +326,25 @@ const Habitaciones = () => {
 
         {/* Modal de características */}
         {showModal && selectedRoom && (
-          <ModalHabit onClose={handleCloseModal} selectedRoom={selectedRoom}>
-            <h2 className="text-2xl font-semibold mb-2">
-              {selectedRoom.nombre}
-            </h2>
-            <div className="flex flex-col items-center">
-              <Carousel
-                showThumbs={false}
-                infiniteLoop={true}
-                autoPlay={true}
-                interval={3000}
-                transitionTime={500}  
-              >
-                {selectedRoom.imagenes.map((imagen, index) => (
-                  <img
-                    key={index}
-                    src={imagen}
-                    alt={`Image ${index + 1}`}
-                    style={{ width: "40%", height: "auto", maxHeight: "300px" }}
-                    className="object-cover rounded-lg mb-4"
-                  />
-                ))}
-              </Carousel>
-              <p>{selectedRoom.caracteristicas}</p>
-              <Link className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" to={"/reservar"}>
-                Reservar
-              </Link>
-              
-            </div>
-          </ModalHabit>
-        )}
+            <ModalHabit onClose={handleCloseModal} selectedRoom={selectedRoom}>
+              <h2 className="text-2xl font-semibold mb-2">
+                {selectedRoom.tipo}
+              </h2>
+              <div className="flex flex-col items-center">
+                <img
+                  src={selectedRoom.imagen}
+                  alt={selectedRoom.tipo}
+                  style={{ width: "40%", height: "auto", maxHeight: "300px" }}
+                  className="object-cover rounded-lg mb-4"
+                />
+                <p>{selectedRoom.caracteristicas}</p>
+                <Link className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" to="/agendar-reserva">
+                  Reservar
+                </Link>
+              </div>
+            </ModalHabit>
+          )}
+
       <footer className="border-t border-gray-400 text-white py-4" id="footer">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-between">
