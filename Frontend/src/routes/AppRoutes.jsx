@@ -9,6 +9,7 @@ import AddHabit from "../pages/AddHabit";
 import SIGN_IN from "../pages/SIGN_IN";
 import { Toaster } from "react-hot-toast";
 
+
 const AppRoutes = () => {
     return (
       <>

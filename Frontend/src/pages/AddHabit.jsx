@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../components/admin/Header';
-import axios from 'axios';
+import React, {useState, useEffect} from 'react'
+import Header from '../components/admin/Header'
+import axios from 'axios'
 
 const AddHabit = () => {
-  const apiUrl = 'http://127.0.0.1:8000/habitaciones/api/';
+
+  const apiUrl = 'http://127.0.0.1:8000/habitaciones/';
 
   useEffect(() => {
     fetchHabitaciones();
@@ -11,7 +12,7 @@ const AddHabit = () => {
 
   const fetchHabitaciones = async () => {
     try {
-      const response = await axios.get(`${apiUrl}habitaciones/`);
+      const response = await axios.get(`${apiUrl}api/habitaciones/`);
       setHabitaciones(response.data);
     } catch (error) {
       console.log(error);
@@ -20,26 +21,17 @@ const AddHabit = () => {
 
   const crearHabitacion = async (habitacionData) => {
     try {
-      const disponibilidad = habitacionData.disponibilidad === "Disponible";
-      const data = { ...habitacionData, disponibilidad };
-      const response = await axios.post(`${apiUrl}habitaciones/`, data);
+      await axios.post(`${apiUrl}api/habitaciones/`, habitacionData);
       fetchHabitaciones();
-      setHabitaciones([...habitaciones, response.data]);
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   const actualizarHabitacionApi = async (id, habitacionData) => {
     try {
-      const disponibilidad = habitacionData.disponibilidad === "Disponible";
-      const data = { ...habitacionData, disponibilidad };
-      await axios.put(`${apiUrl}habitaciones/${id}/`, data);
+      await axios.put(`${apiUrl}api/habitaciones/${id}/`, habitacionData);
       fetchHabitaciones();
-      const habitacionActualizada = { ...habitaciones[indiceEdicion], ...habitacionData };
-      const nuevasHabitaciones = [...habitaciones];
-      nuevasHabitaciones[indiceEdicion] = habitacionActualizada;
-      setHabitaciones(nuevasHabitaciones);
     } catch (error) {
       console.log(error);
     }
@@ -47,10 +39,8 @@ const AddHabit = () => {
 
   const eliminarHabitacion = async (id) => {
     try {
-      await axios.delete(`${apiUrl}habitaciones/${id}/`);
+      await axios.delete(`${apiUrl}api/habitaciones/${id}/`);
       fetchHabitaciones();
-      const nuevasHabitaciones = habitaciones.filter((habitacion) => habitacion.id !== id);
-      setHabitaciones(nuevasHabitaciones);
     } catch (error) {
       console.log(error);
     }
@@ -72,43 +62,58 @@ const AddHabit = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-  
-    if (name === 'disponibilidad') {
-      const disponibilidad = value === 'Disponible';
-      setHabitacionActual({ ...habitacionActual, disponibilidad });
-    } else {
-      setHabitacionActual({ ...habitacionActual, [name]: value });
-    }
+    setHabitacionActual({ ...habitacionActual, [name]: value });
   };
-  
 
-  const agregarHabitacion = () => {
+  const agregarHabitacion = async () => {
     if (validarCampos()) {
-      crearHabitacion(habitacionActual);
-      limpiarFormulario();
+      const disponibilidad = habitacionActual.disponibilidad === 'Disponible' ? true : false;
+      const nuevaHabitacion = { ...habitacionActual, disponibilidad };
+  
+      try {
+        await crearHabitacion(nuevaHabitacion);
+        limpiarFormulario();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const editarHabitacion = (index) => {
     const habitacionSeleccionada = habitaciones[index];
-    setHabitacionActual(habitacionSeleccionada);
+    setHabitacionActual({
+      ...habitacionSeleccionada,
+      disponibilidad: habitacionSeleccionada.disponibilidad ? 'Disponible' : 'No_Disponible',
+    });
     setModoEdicion(true);
     setIndiceEdicion(index);
   };
 
-  const actualizarHabitacion = () => {
+  const actualizarHabitacion = async () => {
     if (validarCampos()) {
       const id = habitaciones[indiceEdicion].id;
-      actualizarHabitacionApi(id, habitacionActual);
-      limpiarFormulario();
-      setModoEdicion(false);
-      setIndiceEdicion(null);
+      const disponibilidad = habitacionActual.disponibilidad === 'Disponible' ? true : false;
+      const habitacionActualizada = { ...habitacionActual, disponibilidad };
+  
+      try {
+        await actualizarHabitacionApi(id, habitacionActualizada);
+        limpiarFormulario();
+        setModoEdicion(false);
+        setIndiceEdicion(null);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
-  const borrarHabitacion = (index) => {
+  const borrarHabitacion = async (index) => {
     const id = habitaciones[index].id;
-    eliminarHabitacion(id);
+    try {
+      await eliminarHabitacion(id);
+      fetchHabitaciones();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const limpiarFormulario = () => {
@@ -125,31 +130,35 @@ const AddHabit = () => {
   };
 
   const validarCampos = () => {
-    if (
+    
+    if (isNaN(habitacionActual.precio) || habitacionActual.precio <= 0) {
+      alert('ERROR, Precio no compatible >:(');
+      return false;
+    }
+    else if (isNaN(habitacionActual.capacidad) || habitacionActual.capacidad < 1 || habitacionActual.capacidad > 10) {
+    alert('La capacidad debe ser entre 1 y 10 personas.');
+    return false;
+    }
+    else if (habitacionActual.numero < 0) {
+      alert('El número de habitación no puede ser negativo.');
+      return false;
+    }
+    else if (
       habitacionActual.imagen.trim() === '' ||
       habitacionActual.tipo.trim() === '' ||
       habitacionActual.precio.trim() === '' ||
       habitacionActual.capacidad.trim() === '' ||
       habitacionActual.caracteristicas.trim() === '' ||
-      habitacionActual.numero.trim() === ''
+      habitacionActual.numero.trim() === '' ||
+      habitacionActual.disponibilidad.trim() === ''
     ) {
       alert('Todos los campos son obligatorios');
       return false;
     }
-  
-    // Validar disponibilidad si es una cadena de texto
-    if (typeof habitacionActual.disponibilidad === 'string' && habitacionActual.disponibilidad.trim() === '') {
-      alert('La disponibilidad es obligatoria');
-      return false;
-    }
-  
     setError('');
     return true;
   };
 
-
-
-    
   return (
     <div className="bg-gray-900 text-white">
         <Header></Header>
@@ -241,10 +250,10 @@ const AddHabit = () => {
       </div>
 
       <div className="flex flex-wrap mb-4">
-        <label htmlFor="numero" className="w-full">
+        <label htmlFor="numeroHabitacion" className="w-full">
           Número de Habitación:
           <input
-            type="text"
+            type="number"
             id="numero"
             name="numero"
             value={habitacionActual.numero}
@@ -323,7 +332,7 @@ const AddHabit = () => {
           {habitacion.caracteristicas.slice(0, 30)}
         </td>
         <td className="px-4 py-2">{habitacion.numero}</td>
-        <td className="px-4 py-2">{habitacion.disponibilidad}</td>
+        <td className="px-4 py-2">{habitacion.disponibilidad ? 'Disponible' : 'No Disponible'}</td>
         <td className="px-4 py-2">
           <button
             type="button"
