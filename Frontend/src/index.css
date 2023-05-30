@@ -10,3 +10,7 @@
     background-size: cover;
     background-position: center;
   }  
+
+  .text-left-custom {
+    text-align: left;
+  }

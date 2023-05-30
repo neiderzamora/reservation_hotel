@@ -337,7 +337,9 @@ const Habitaciones = () => {
                   style={{ width: "40%", height: "auto", maxHeight: "300px" }}
                   className="object-cover rounded-lg mb-4"
                 />
-                <p>{selectedRoom.caracteristicas}</p>
+                <p className="py-2">{selectedRoom.caracteristicas}</p>               
+                <p className="py-2">Habitación número {selectedRoom.numero}</p>               
+                <p className="py-2">Por tan solo ${selectedRoom.precio} Pesos</p>
                 <Link className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" to="/agendar-reserva">
                   Reservar
                 </Link>

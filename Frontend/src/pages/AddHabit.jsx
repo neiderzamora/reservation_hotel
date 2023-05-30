@@ -3,9 +3,10 @@ import Header from '../components/admin/Header'
 import axios from 'axios'
 
 const AddHabit = () => {
-
   const apiUrl = 'http://127.0.0.1:8000/habitaciones/';
-
+  
+  const [habitacionesExistentes, setHabitacionesExistentes] = useState([]);
+  
   useEffect(() => {
     fetchHabitaciones();
   }, []);
@@ -14,6 +15,8 @@ const AddHabit = () => {
     try {
       const response = await axios.get(`${apiUrl}api/habitaciones/`);
       setHabitaciones(response.data);
+      const numerosHabitacion = response.data.map((habitacion) => habitacion.numero);
+      setHabitacionesExistentes(numerosHabitacion);
     } catch (error) {
       console.log(error);
     }
@@ -130,6 +133,18 @@ const AddHabit = () => {
   };
 
   const validarCampos = () => {
+    if (
+      habitacionActual.imagen.trim() === '' ||
+      habitacionActual.tipo.trim() === '' ||
+      habitacionActual.precio.trim() === '' ||
+      habitacionActual.capacidad.trim() === '' ||
+      habitacionActual.caracteristicas.trim() === '' ||
+      habitacionActual.numero.trim() === '' ||
+      habitacionActual.disponibilidad.trim() === ''
+    ) {
+      alert('Todos los campos son obligatorios');
+      return false;
+    }
     
     if (isNaN(habitacionActual.precio) || habitacionActual.precio <= 0) {
       alert('ERROR, Precio no compatible >:(');
@@ -143,18 +158,11 @@ const AddHabit = () => {
       alert('El número de habitación no puede ser negativo.');
       return false;
     }
-    else if (
-      habitacionActual.imagen.trim() === '' ||
-      habitacionActual.tipo.trim() === '' ||
-      habitacionActual.precio.trim() === '' ||
-      habitacionActual.capacidad.trim() === '' ||
-      habitacionActual.caracteristicas.trim() === '' ||
-      habitacionActual.numero.trim() === '' ||
-      habitacionActual.disponibilidad.trim() === ''
-    ) {
-      alert('Todos los campos son obligatorios');
+    else if (habitacionesExistentes.includes(habitacionActual.numero)) {
+      alert('El número de habitación ya existe. Por favor, elija otro número.');
       return false;
     }
+
     setError('');
     return true;
   };
