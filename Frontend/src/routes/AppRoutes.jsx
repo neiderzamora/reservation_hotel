@@ -8,6 +8,7 @@ import Reserva from "../pages/Reserva";
 import AddHabit from "../pages/AddHabit";
 import SIGN_IN from "../pages/SIGN_IN";
 import { Toaster } from "react-hot-toast";
+import Create_Reserve from "../pages/Create_Reserve";
 
 
 const AppRoutes = () => {
@@ -17,6 +18,7 @@ const AppRoutes = () => {
           <Route path="/panel" element={<Panel />} />
           <Route path="/" element={<Habitaciones />} />
           <Route path="/reservar" element={<Reserva />} />
+          <Route path="/agendar-reserva" element={<Create_Reserve />} />
           <Route path="/add" element={<AddHabit />} />
           <Route path="/editar-reserva/:id" element={<EditReserve />} /> {/* agregar el id cuando se consuma datos del back */}
           <Route path="/login" element={<SIGN_IN />} />
